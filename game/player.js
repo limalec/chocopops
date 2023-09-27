@@ -1,20 +1,24 @@
-var Player = function(name, color, position, direction) {
+var Player = function(name, color, position, direction, playerornot) {
 
     this.name = name;
     this.position = position;
-    this.life = 3;
+    this.life = 100;
     this.bullets = new Array();
     this.direction = direction;
     this.speed = 0;
-
     this.material = new THREE.MeshLambertMaterial({
         color: color,
         });
 
     var singleGeometry = new THREE.Geometry();
-
-    vehiculeMesh = new THREE.ConeGeometry(5, 20, 32);
-    this.graphic = new THREE.Mesh(vehiculeMesh, this.material);
+    if (playerornot == true)
+    {    vehiculeMesh = new THREE.ConeGeometry(5, 20, 32);
+        this.graphic = new THREE.Mesh(vehiculeMesh, this.material);
+    }
+    else{
+        vehiculeMesh = new THREE.CubeGeometry(10, 10, 10);
+        this.graphic = new THREE.Mesh(vehiculeMesh, this.material);
+    }
     this.graphic.position.z = 6;
 
     this.graphic.rotateOnAxis(new THREE.Vector3(0,0,1), this.direction+(3*Math.PI/2));
@@ -51,8 +55,8 @@ Player.prototype.displayInfo = function () {
 }
 
 Player.prototype.turnRight = function (angle) {
-    this.direction += angle;
-    this.graphic.rotateOnAxis(new THREE.Vector3(0,0,1), +angle);
+    this.direction -= angle;
+    this.graphic.rotateOnAxis(new THREE.Vector3(0,0,-1), +angle);
 };
 
 Player.prototype.turnLeft = function (angle) {
